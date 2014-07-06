@@ -1,0 +1,16 @@
+name: sbcl-wrap
+version: 0.0.1
+cabal-version: >=1.2
+build-type: Simple
+license: AllRightsReserved
+license-file: ""
+homepage: https://github.com/kisp/sbcl-wrap
+synopsis: Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
+description:  
+data-dir: ""
+ 
+executable sbcl-wrap
+    build-depends: base, directory, unix, process, bytestring, cryptohash
+    main-is: Main.hs
+    buildable: True
+    hs-source-dirs: src
