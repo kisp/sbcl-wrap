@@ -54,7 +54,8 @@ sbclScript :: String -> [String] -> String
 sbclScript imagePath systems = intercalate "\n" lines
     where lines = [ "(setq *debugger-hook* (lambda (c h) (declare (ignore h)) (format t \"ERROR of type ~A: ~A~%\" (type-of c) c) (sb-ext:exit :code 1)))" ] ++
                   map loadSystem systems ++
-                  [ "(ensure-directories-exist \"" ++ imagePath ++ "\")"
+                  [ "(setq *evaluator-mode* :interpret)"
+                  , "(ensure-directories-exist \"" ++ imagePath ++ "\")"
                   , "(sb-ext:save-lisp-and-die \"" ++ imagePath ++ "\")" ]
           loadSystem name =  "(asdf:load-system \"" ++ name ++ "\")"
 
