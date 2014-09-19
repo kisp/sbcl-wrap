@@ -52,7 +52,8 @@ sbcl = "/usr/bin/sbcl"
 
 sbclScript :: String -> [String] -> String
 sbclScript imagePath systems = intercalate "\n" lines
-    where lines = [ "(setq *debugger-hook* (lambda (c h) (declare (ignore h)) (format t \"ERROR of type ~A: ~A~%\" (type-of c) c) (sb-ext:exit :code 1)))" ] ++
+    where lines = [ "(setq *debugger-hook* (lambda (c h) (declare (ignore h)) (format t \"ERROR of type ~A: ~A~%\" (type-of c) c) (sb-ext:exit :code 1)))"
+                  , "(setq sb-ext:*invoke-debugger-hook* *debugger-hook*)" ] ++
                   map loadSystem systems ++
                   [ "(setq *evaluator-mode* :interpret)"
                   , "(ensure-directories-exist \"" ++ imagePath ++ "\")"
