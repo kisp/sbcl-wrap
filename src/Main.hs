@@ -41,6 +41,11 @@ word8hex = printf "%02x"
 md5 :: String -> String
 md5 = concatMap word8hex . unpack . hash . pack . map (fromIntegral . ord)
 
+escape :: Char -> String -> String
+escape _ []                 = []
+escape e (x:xs) | e == x    = '\\':x:(escape e xs)
+                | otherwise = x:(escape e xs)
+
 -- system names to hash
 systemsHash :: [String] -> String
 systemsHash names = md5 $ concat $ sort (map l names)
@@ -149,7 +154,13 @@ execSbcl :: ImagePathAndSbclCall -> IO ()
 execSbcl (imagePath, sbclScript, sbclArgs) =
     executeFile sbcl
               False
-              (["--core", imagePath, "--script", sbclScript] ++ sbclArgs)
+              ([ "--core", imagePath
+               , "--noinform", "--disable-ldb", "--lose-on-corruption", "--end-runtime-options"
+               , "--no-sysinit", "--no-userinit"
+               , "--eval", "(sb-impl::process-script \"" ++ (escape '"' sbclScript) ++ "\")"
+               , "--quit"
+               , "--end-toplevel-options"
+               ] ++ sbclArgs)
               Nothing
 
 type IOErr a = EitherT (String, Int) IO a
