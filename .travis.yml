@@ -20,6 +20,9 @@ matrix:
 before_install:
  - export PATH=/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$PATH
 
-script:
+install:
+  - cabal update
   - cabal configure
+
+script:
   - cabal build
