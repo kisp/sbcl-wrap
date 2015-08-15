@@ -22,7 +22,8 @@ before_install:
 
 install:
   - cabal update
-  - cabal configure
+  - cabal install --only-dependencies
 
 script:
+  - cabal configure
   - cabal build
