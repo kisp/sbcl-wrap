@@ -20,6 +20,15 @@ import Data.Word (Word8)
 
 import Text.Printf
 
+#if __GLASGOW_HASKELL__ >= 710
+instance Functor Foo where
+    fmap  = liftM
+
+instance Applicative Foo where
+    pure  = return
+    (<*>) = ap  -- defined in Control.Monad
+#endif
+
 -- EitherT
 newtype EitherT a m b = EitherT { runEitherT :: m (Either a b) }
 
