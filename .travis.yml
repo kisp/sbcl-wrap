@@ -1,0 +1,13 @@
+language: haskell
+ghc:
+  #- "7.10"
+  - 7.8
+  - 7.6
+  - 7.4
+  - 7.0
+
+sudo: required
+
+script:
+  - cabal configure
+  - cabal build
