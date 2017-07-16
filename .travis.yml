@@ -31,3 +31,16 @@ install:
 script:
   - cabal configure
   - cabal build
+
+after_success:
+  - sudo checkinstall --nodoc -y --pkgversion=$TRAVIS_TAG
+
+deploy:
+  provider: releases
+  api_key:
+    secure: DNcfcmaX8afvA1+P3Ws0VBab7OLKnHdY/iX6ZUW0HHTBeZ7G/dVr2+1zRTGkbvDFcm9MAAYx+MIAfMNVmZQ/YzRr32eIQwYnRpba5rl1LWH3GRw9MY+1lYEczyOJfFbBv6IF0CQtT2jwZvktP7Tr100McvMLjIPPQmi1m8AU4GA=
+  file: sbcl-wrap_${TRAVIS_TAG}-1_amd64.deb
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $GHCVER = 8.0.2
