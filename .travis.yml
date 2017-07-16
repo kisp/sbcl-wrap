@@ -43,5 +43,6 @@ deploy:
   file: sbcl-wrap_${TRAVIS_TAG}-1_amd64.deb
   skip_cleanup: true
   on:
+    repo: kisp/sbcl-wrap
     tags: true
     condition: $GHCVER = 8.0.2
