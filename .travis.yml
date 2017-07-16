@@ -34,7 +34,7 @@ script:
   - cabal build
 
 after_success:
-  - sudo checkinstall --nodoc -y --pkgname=sbcl-wrap --pkgversion=$TRAVIS_TAG
+  - sudo checkinstall --nodoc -y --pkgname=sbcl-wrap --pkgversion=$TRAVIS_TAG make install prefix=/usr
 
 deploy:
   provider: releases
