@@ -11,7 +11,7 @@ $ cabal sandbox init
 $ cabal install --only-dependencies
 $ cabal build   
 ```
-Then install to a convenient location, e.g. ```/usr/local/bin/sbcl-wrap```.
+Then install ```dist/build/sbcl-wrap/sbcl-wrap``` to a convenient location, e.g. ```/usr/local/bin/sbcl-wrap```.
 
 # Usage example
 Given a script foo.lisp:
