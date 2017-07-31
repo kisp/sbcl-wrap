@@ -62,7 +62,7 @@ systemsHash names = md5 $ concat $ sort (map l names)
 
 -- sbcl
 sbcl :: String
-sbcl = "/usr/bin/sbcl"
+sbcl = "sbcl"
 
 sbclScript :: String -> [String] -> String
 sbclScript imagePath systems = intercalate "\n" lines
@@ -162,7 +162,7 @@ main = do
 execSbcl :: ImagePathAndSbclCall -> IO ()
 execSbcl (imagePath, sbclScript, sbclArgs) =
     executeFile sbcl
-              False
+              True
               ([ "--core", imagePath
                , "--noinform", "--disable-ldb", "--lose-on-corruption", "--end-runtime-options"
                , "--no-sysinit", "--no-userinit"
