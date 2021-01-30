@@ -2,8 +2,8 @@ name: sbcl-wrap
 version: 0.0.6
 cabal-version: >=1.2
 build-type: Simple
-license: AllRightsReserved
-license-file: ""
+license: MIT
+license-file: "LICENSE"
 homepage: https://github.com/kisp/sbcl-wrap
 synopsis: Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
 description:  
