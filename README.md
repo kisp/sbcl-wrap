@@ -1,19 +1,43 @@
-[![Build Status](https://travis-ci.org/kisp/sbcl-wrap.svg?branch=master)](https://travis-ci.org/kisp/sbcl-wrap)
-
 # sbcl-wrap
 Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
 
 See also https://github.com/kisp/clisp-wrap.
 
-# Building
+[![Build Status](https://travis-ci.org/kisp/sbcl-wrap.svg?branch=master)](https://travis-ci.org/kisp/sbcl-wrap)
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Building](#building)
+    - [Stack](#stack)
+    - [Cabal](#cabal)
+- [Usage example](#usage-example)
+
+<!-- markdown-toc end -->
+
+## Building
+
+### Stack
+
 ```
-$ cabal sandbox init
-$ cabal install --only-dependencies
-$ cabal build   
+stack build
+stack install
+ls -l $HOME/.local/bin/sbcl-wrap
 ```
+
+### Cabal
+
+**Deprecated**
+
+```
+cabal sandbox init
+cabal install --only-dependencies
+cabal build
+```
+
 Then install ```dist/build/sbcl-wrap/sbcl-wrap``` to a convenient location, e.g. ```/usr/local/bin/sbcl-wrap```.
 
-# Usage example
+## Usage example
 Given a script foo.lisp:
 ```
 #!/usr/local/bin/sbcl-wrap alexandria puri --
