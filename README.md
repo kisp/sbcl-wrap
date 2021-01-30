@@ -1,9 +1,9 @@
+[![Build Status](https://travis-ci.org/kisp/sbcl-wrap.svg?branch=master)](https://travis-ci.org/kisp/sbcl-wrap)
+
 # sbcl-wrap
 Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
 
 See also https://github.com/kisp/clisp-wrap.
-
-[![Build Status](https://travis-ci.org/kisp/sbcl-wrap.svg?branch=master)](https://travis-ci.org/kisp/sbcl-wrap)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
