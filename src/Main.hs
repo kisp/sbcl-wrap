@@ -1,24 +1,25 @@
 {-# OPTIONS_GHC -fno-warn-name-shadowing #-}
-{-# LANGUAGE CPP, DoAndIfThenElse #-}
+{-# LANGUAGE CPP             #-}
+{-# LANGUAGE DoAndIfThenElse #-}
 module Main (main)
 where
 
-import Control.Monad
-import System.Process
-import System.Posix.Process (executeFile)
-import System.IO
-import System.Exit
-import System.Directory
-import System.Environment
-import Data.List
+import           Control.Monad
+import           Data.List
+import           System.Directory
+import           System.Environment
+import           System.Exit
+import           System.IO
+import           System.Posix.Process (executeFile)
+import           System.Process
 
-import Crypto.Hash.MD5 (hash)
+import           Crypto.Hash.MD5      (hash)
 
-import Data.ByteString (pack, unpack)
-import Data.Char (ord, toLower)
-import Data.Word (Word8)
+import           Data.ByteString      (pack, unpack)
+import           Data.Char            (ord, toLower)
+import           Data.Word            (Word8)
 
-import Text.Printf
+import           Text.Printf
 
 -- EitherT
 newtype EitherT a m b = EitherT { runEitherT :: m (Either a b) }
@@ -122,8 +123,8 @@ ensureDoubleHyphen s | "--" `elem` s = Right ()
                      | otherwise     = Left ("missing separator `--'", 88)
 
 ensureSbclScript :: [String] -> Either (String, Int) ()
-ensureSbclScript (_:_)  = Right ()
-ensureSbclScript _      = Left ("sbclScript argument missing", 88)
+ensureSbclScript (_:_) = Right ()
+ensureSbclScript _     = Left ("sbclScript argument missing", 88)
 
 splitFirst :: [String] -> [String]
 splitFirst (h:t) = words h ++ t
