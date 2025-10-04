@@ -155,7 +155,7 @@ main = do
   args <- getArgs
   res <- runEitherT $ parseArgsAndEnsureImage args
   case res of
-    Left (message, code) -> putSbclWrapMessage "INFO" "version 0.0.10" >>
+    Left (message, code) -> putSbclWrapMessage "INFO" "version 0.0.11" >>
                             putSbclWrapMessage "INFO" ("called with args " ++ show args) >>
                             putSbclWrapMessage "ERROR" message >>
                             exitWith (ExitFailure code)
