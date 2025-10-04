@@ -166,6 +166,7 @@ execSbcl (imagePath, sbclScript, sbclArgs) =
     executeFile sbcl
               True
               ([ "--core", imagePath
+               , "--dynamic-space-size", "2048"
                , "--noinform", "--disable-ldb", "--lose-on-corruption", "--end-runtime-options"
                , "--no-sysinit", "--no-userinit"
                , "--eval", "(sb-impl::process-script \"" ++ (escape '"' sbclScript) ++ "\")"
