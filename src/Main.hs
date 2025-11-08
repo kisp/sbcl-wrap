@@ -162,7 +162,8 @@ main = do
     Right imagePathAndSbclCall -> execSbcl imagePathAndSbclCall
 
 execSbcl :: ImagePathAndSbclCall -> IO ()
-execSbcl (imagePath, sbclScript, sbclArgs) =
+execSbcl (imagePath, sbclScript, sbclArgs) = do
+    setEnv "SBCL_WRAP_SCRIPT_NAME" sbclScript
     executeFile sbcl
               True
               ([ "--core", imagePath
