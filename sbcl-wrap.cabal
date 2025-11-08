@@ -6,8 +6,6 @@ license: MIT
 license-file: "LICENSE"
 homepage: https://github.com/kisp/sbcl-wrap
 synopsis: Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
-description:  
-data-dir: ""
  
 executable sbcl-wrap
     build-depends: base, directory, unix, process, bytestring, cryptohash
