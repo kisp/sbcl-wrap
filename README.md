@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kisp/sbcl-wrap.svg?branch=master)](https://travis-ci.org/kisp/sbcl-wrap)
+[![CI](https://github.com/kisp/sbcl-wrap/actions/workflows/ci.yml/badge.svg)](https://github.com/kisp/sbcl-wrap/actions/workflows/ci.yml)
 
 # sbcl-wrap
 Wrapper around sbcl for fast script execution with (on demand compiled and cached) libraries.
@@ -9,6 +9,7 @@ See also https://github.com/kisp/clisp-wrap.
 **Table of Contents**
 
 - [Building](#building)
+    - [Nix](#nix)
     - [Stack](#stack)
     - [Cabal](#cabal)
 - [Usage example](#usage-example)
@@ -16,6 +17,26 @@ See also https://github.com/kisp/clisp-wrap.
 <!-- markdown-toc end -->
 
 ## Building
+
+### Nix
+
+No Haskell toolchain needed on the host.
+
+```
+# Build the binary
+nix build
+./result/bin/sbcl-wrap --help
+
+# Install into your Nix profile
+make nix-install
+# or: nix profile install .
+
+# Run directly without installing
+nix run github:kisp/sbcl-wrap
+
+# Drop into a dev shell (GHC, cabal, stack, HLS, sbcl)
+nix develop
+```
 
 ### Stack
 

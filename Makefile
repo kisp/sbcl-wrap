@@ -2,6 +2,10 @@ default: package
 
 prefix=/usr/local
 
+# Install via Nix into the user profile (no Haskell toolchain required on host)
+nix-install:
+	nix profile install .
+
 install:
 	install -m 0755 dist/build/sbcl-wrap/sbcl-wrap $(prefix)/bin
 
