@@ -3,3 +3,7 @@ cabal.sandbox.config
 .cabal-sandbox
 .stack-work
 sbcl-wrap-binary-linux-x86_64.tar.gz
+# Nix
+result
+result-*
+.direnv
