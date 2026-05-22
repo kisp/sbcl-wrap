@@ -10,7 +10,9 @@ import           System.Directory
 import           System.Environment
 import           System.Exit
 import           System.IO
-import           System.Posix.Process (executeFile)
+import           System.IO.Error      (catchIOError)
+import           System.Posix.Files   (rename)
+import           System.Posix.Process (executeFile, getProcessID)
 import           System.Process
 
 import           Crypto.Hash.MD5      (hash)
@@ -65,14 +67,16 @@ systemsHash names = md5 $ concat $ sort (map l names)
 sbcl :: String
 sbcl = "sbcl"
 
-sbclScript :: String -> [String] -> String
-sbclScript imagePath systems = intercalate "\n" lines
+-- tmpPath is where SBCL writes the image; imagePath is the final cache location.
+-- They differ so that two concurrent builds never write to the same file.
+sbclScript :: String -> String -> [String] -> String
+sbclScript imagePath tmpPath systems = intercalate "\n" lines
     where lines = [ "(setq *debugger-hook* (lambda (c h) (declare (ignore h)) (format *error-output* \"ERROR of type ~S:~%~A~%\" (type-of c) c) (sb-ext:exit :code 1)))"
                   , "(setq sb-ext:*invoke-debugger-hook* *debugger-hook*)" ] ++
                   map loadSystem systems ++
                   [ "(setq *evaluator-mode* :interpret)"
                   , "(ensure-directories-exist \"" ++ imagePath ++ "\")"
-                  , "(sb-ext:save-lisp-and-die \"" ++ imagePath ++ "\")" ]
+                  , "(sb-ext:save-lisp-and-die \"" ++ tmpPath ++ "\")" ]
           loadSystem name =  "(asdf:load-system \"" ++ name ++ "\")"
 
 -- IO
@@ -81,6 +85,8 @@ handleToDevNull = openFile "/dev/null" WriteMode
 
 makeImage :: String -> [String] -> IO (Either (String, Int) String)
 makeImage imagePath systems = do
+  pid <- getProcessID
+  let tmpPath = imagePath ++ ".tmp." ++ show pid
   devNull <- handleToDevNull
   (Just hIn, _, _, p) <- createProcess
                          (proc sbcl [])
@@ -88,17 +94,21 @@ makeImage imagePath systems = do
                          , std_err = UseHandle devNull
                          , std_in  = CreatePipe
                          , close_fds = False }
-  let script = sbclScript imagePath systems
+  let script = sbclScript imagePath tmpPath systems
   hPutStrLn hIn script
   hClose hIn
   code <- waitForProcess p
   hClose devNull
   case code of
-    ExitSuccess -> return $ Right imagePath
-    ExitFailure c -> return $ Left ("sbcl image builder for `" ++
-                                    intercalate ", " systems ++
-                                    "' returned " ++ show c,
-                                    77)
+    ExitSuccess -> do
+      rename tmpPath imagePath
+      return $ Right imagePath
+    ExitFailure c -> do
+      catchIOError (removeFile tmpPath) (\_ -> return ())
+      return $ Left ("sbcl image builder for `" ++
+                     intercalate ", " systems ++
+                     "' returned " ++ show c,
+                     77)
 
 ensureImage :: [String] -> IOErr String
 ensureImage systems = EitherT $ do
