@@ -11,6 +11,7 @@ See also https://github.com/kisp/clisp-wrap.
 - [Building](#building)
     - [Nix](#nix)
     - [Cabal](#cabal)
+- [Development shell (devenv.sh)](#development-shell-devenvsh)
 - [Usage example](#usage-example)
 
 <!-- markdown-toc end -->
@@ -44,6 +45,22 @@ nix develop
 cabal build
 cabal install
 ```
+
+
+## Development shell (devenv.sh)
+
+[devenv.sh](https://devenv.sh) provides an alternative to `nix develop` using `devenv.nix`.
+
+```
+# Enter the dev shell
+devenv shell
+
+# Or activate automatically with direnv
+direnv allow
+```
+
+The shell provides GHC, cabal, stack, sbcl, and rlwrap. On entry it prints a
+quick reference of the common build commands.
 
 ## Usage example
 Given a script foo.lisp:
