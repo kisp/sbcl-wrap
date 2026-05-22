@@ -51,6 +51,14 @@ cabal install
 
 [devenv.sh](https://devenv.sh) provides an alternative to `nix develop` using `devenv.nix`.
 
+No need to install devenv globally — run it directly via Nix:
+
+```
+nix run github:cachix/devenv -- shell
+```
+
+This always fetches the latest devenv. If you have devenv installed locally:
+
 ```
 # Enter the dev shell
 devenv shell
