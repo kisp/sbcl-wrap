@@ -10,7 +10,6 @@ See also https://github.com/kisp/clisp-wrap.
 
 - [Building](#building)
     - [Nix](#nix)
-    - [Stack](#stack)
     - [Cabal](#cabal)
 - [Usage example](#usage-example)
 
@@ -34,29 +33,16 @@ make nix-install
 # Run directly without installing
 nix run github:kisp/sbcl-wrap
 
-# Drop into a dev shell (GHC, cabal, stack, HLS, sbcl)
+# Drop into a dev shell (GHC, cabal, HLS, sbcl)
 nix develop
-```
-
-### Stack
-
-```
-stack build
-stack install
-ls -l $HOME/.local/bin/sbcl-wrap
 ```
 
 ### Cabal
 
-**Deprecated**
-
 ```
-cabal sandbox init
-cabal install --only-dependencies
 cabal build
+cabal install
 ```
-
-Then install ```dist/build/sbcl-wrap/sbcl-wrap``` to a convenient location, e.g. ```/usr/local/bin/sbcl-wrap```.
 
 ## Usage example
 Given a script foo.lisp:

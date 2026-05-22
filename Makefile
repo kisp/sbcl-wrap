@@ -13,9 +13,9 @@ BINARY = sbcl-wrap
 PACKAGE = sbcl-wrap-binary-linux-x86_64.tar.gz
 LOCAL_BIN = $(HOME)/.local/bin/$(BINARY)
 
-$(LOCAL_BIN): src/Main.hs sbcl-wrap.cabal stack.yaml stack.yaml.lock
-	stack build
-	stack install
+$(LOCAL_BIN): src/Main.hs sbcl-wrap.cabal
+	cabal build
+	cabal install
 
 $(PACKAGE): $(LOCAL_BIN)
 	tar -czf $(PACKAGE) -C $(dir $(LOCAL_BIN)) $(BINARY)

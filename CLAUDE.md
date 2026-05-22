@@ -16,14 +16,7 @@ Scripts invoke it via shebang: `#!/usr/local/bin/sbcl-wrap alexandria puri --`
 nix build                  # build → ./result/bin/sbcl-wrap
 make nix-install           # nix profile install . → installs to Nix profile
 nix run .#test             # run integration test suite
-nix develop                # dev shell: GHC, cabal, stack, HLS, sbcl
-```
-
-**Stack:**
-
-```bash
-stack build
-stack install              # installs to ~/.local/bin/sbcl-wrap
+nix develop                # dev shell: GHC, cabal, HLS, sbcl
 ```
 
 ## Architecture (single file: `src/Main.hs`)
