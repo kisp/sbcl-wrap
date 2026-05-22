@@ -24,7 +24,8 @@ No Haskell toolchain needed on the host.
 
 ```
 # Build the binary
-nix build
+make build
+# or: nix build
 ./result/bin/sbcl-wrap  # prints version info and exits 88 (no args)
 
 # Install into your Nix profile

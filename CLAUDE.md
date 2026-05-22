@@ -13,7 +13,7 @@ Scripts invoke it via shebang: `#!/usr/local/bin/sbcl-wrap alexandria puri --`
 **Nix (preferred — no Haskell toolchain needed on the host):**
 
 ```bash
-nix build                  # build → ./result/bin/sbcl-wrap
+make build                 # build → ./result/bin/sbcl-wrap (runs nix build)
 make nix-install           # nix profile install . → installs to Nix profile
 nix run .#test             # run integration test suite
 nix develop                # dev shell: GHC, cabal, stack, HLS, sbcl

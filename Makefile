@@ -2,6 +2,9 @@ default: package
 
 prefix=/usr/local
 
+build:
+	nix build
+
 # Install via Nix into the user profile (no Haskell toolchain required on host)
 nix-install:
 	nix profile install .
