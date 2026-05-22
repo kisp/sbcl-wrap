@@ -13,6 +13,7 @@ See also https://github.com/kisp/clisp-wrap.
     - [Cabal](#cabal)
 - [Development shell (devenv.sh)](#development-shell-devenvsh)
 - [Usage example](#usage-example)
+- [Using without installing sbcl-wrap](#using-without-installing-sbcl-wrap)
 
 <!-- markdown-toc end -->
 
@@ -51,7 +52,7 @@ cabal install
 
 [devenv.sh](https://devenv.sh) provides an alternative to `nix develop` using `devenv.nix`.
 
-No need to install devenv globally — run it directly via Nix:
+No need to install devenv globally. Run it directly via Nix:
 
 ```
 nix run github:cachix/devenv -- shell
@@ -127,3 +128,52 @@ user    0m0.030s
 sys     0m0.017s
 ```
 The image is stored in ~/.cache/sbcl-wrap.
+
+## Using without installing sbcl-wrap
+
+On any Nix-enabled system you can write scripts that use sbcl-wrap via `nix run`,
+with no prior installation required. Use the same `#!/bin/sh` polyglot shebang
+as usual, but call `nix run github:kisp/sbcl-wrap` instead:
+
+```lisp
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec nix run github:kisp/sbcl-wrap -- cl-ppcre -- "$0" "$@"
+|#
+
+;;; Read stdin, print the 10 most common words.
+
+(defpackage #:word-freq (:use #:cl))
+(in-package #:word-freq)
+
+(let ((tally (make-hash-table :test #'equal)))
+  (loop for line = (read-line *standard-input* nil)
+        while line
+        do (dolist (word (cl-ppcre:all-matches-as-strings "[a-z]+" (string-downcase line)))
+             (incf (gethash word tally 0))))
+  (let* ((pairs (loop for k being each hash-key of tally
+                      using (hash-value v) collect (cons k v)))
+         (sorted (sort pairs #'> :key #'cdr)))
+    (loop for (word . n) in (subseq sorted 0 (min 10 (length sorted)))
+          do (format t "~5d  ~a~%" n word))))
+```
+
+Make the script executable and run it:
+
+```
+$ chmod +x word-freq.lisp
+$ cat /usr/share/doc/sbcl/README | ./word-freq.lisp
+   52  the
+   28  sbcl
+   27  to
+   20  of
+   ...
+```
+
+The first run fetches and builds sbcl-wrap from source via Nix (slow, cached
+afterwards). To pin a specific release for reproducibility:
+
+```lisp
+exec nix run github:kisp/sbcl-wrap/0.0.13 -- cl-ppcre -- "$0" "$@"
+```
